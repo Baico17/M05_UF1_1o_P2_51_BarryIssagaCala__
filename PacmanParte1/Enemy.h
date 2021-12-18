@@ -11,8 +11,13 @@ private:
 	COORD position;
 	COORD direction;
 	char character = 'A';
+	float powerup_countdown = 0;
+	const float powerup_countdown_time = 15;
 	ConsoleUtils::CONSOLE_COLOR foreground = ConsoleUtils::CONSOLE_COLOR::DARK_RED;
 	ConsoleUtils::CONSOLE_COLOR background = ConsoleUtils::CONSOLE_COLOR::BLACK;
+
+	ConsoleUtils::CONSOLE_COLOR foreground_attack = ConsoleUtils::CONSOLE_COLOR::DARK_RED;
+	ConsoleUtils::CONSOLE_COLOR foreground_powerup = ConsoleUtils::CONSOLE_COLOR::CYAN;
 	void RandomDirection();
 
 public:
@@ -20,6 +25,7 @@ public:
 	Enemy();
 	Enemy(COORD _spawn);
 	void Draw();
+	void PowerUpPicked();
 	ENEMY_STATE Update(Map* _map,COORD _player);
 };
 

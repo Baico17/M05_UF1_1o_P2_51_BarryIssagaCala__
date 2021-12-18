@@ -2,6 +2,7 @@
 #include<iostream>
 #include<stdlib.h>
 #include<time.h>
+#include "TimeManager.h"
 
 using namespace std;
 void Enemy::RandomDirection()
@@ -47,8 +48,14 @@ void Enemy::Draw()
 	cout << character;
 }
 
+void Enemy::PowerUpPicked()
+{
+	powerup_countdown = TimeManager::getInstance().time + powerup_countdown_time;
+}
+
 Enemy::ENEMY_STATE Enemy::Update(Map* _map, COORD _player)
 {
+	
 	RandomDirection();
 	COORD newPosition = position;
 	
@@ -77,9 +84,27 @@ Enemy::ENEMY_STATE Enemy::Update(Map* _map, COORD _player)
 	ENEMY_STATE state = ENEMY_STATE::ENEMY_NONE;
 	if (position.X == _player.X && position.Y == _player.Y)
 	{
-		position = spawn;
-		state = ENEMY_STATE::ENEMY_KILLED;
-
+		if (powerup_countdown <= TimeManager::getInstance().time)
+		{
+			state = ENEMY_STATE::ENEMY_DEAD;
+		}
+		else
+		{
+			position = spawn;
+			state = ENEMY_STATE::ENEMY_KILLED;
+		}
 	}
-	return state;
+		
+
+		if (powerup_countdown <= TimeManager::getInstance().time)
+		{
+			foreground = foreground_attack;
+		}
+		else
+		{
+			foreground = foreground_powerup;
+		}
+
+		return state;
+	
 }
