@@ -29,6 +29,8 @@ char player_char = 'O';
 int player_x = 1;
 int player_y = 1;
 int player_points = 0;
+int playerLife = 3; // contador de impactos
+bool gameOver = false;  // fin del juego 
 USER_INPUTS input = USER_INPUTS::NONE;
 bool run = true;
 bool win = false;
@@ -96,6 +98,14 @@ void Logic()
             break;
         }
     }
+    else if (gameOver)
+    {
+        switch (input)
+        {
+        case QUIT:
+            run = false;
+        }
+    }
     else
     {
         int player_y_new = player_y;
@@ -161,16 +171,24 @@ void Logic()
             switch (enemy1state)
             {
 
-            case Enemy::ENEMY_KILLED:
+            case Enemy::ENEMY_KILLED:  // player mata al enemigo
                 player_points += 50;
                 break;
-            case Enemy::ENEMY_DEAD:
+
+            case Enemy::ENEMY_DEAD: // enemigo mata al player
+                playerLife--;
                 player_x = pacman_map.spawn_player.X;
                 player_y = pacman_map.spawn_player.Y;
                 break;
 
 
             }
+            // Si el jugador recibe tres impactos se acaba la partida
+            if (playerLife < 1)
+            {
+                gameOver = true;
+            }
+
             if (pacman_map.points <= 0)
             {
                 win = true;
@@ -218,4 +236,9 @@ void Draw()
     std::cout << "Time:" << TimeManager::getInstance().time << std::endl;
     std::cout << "DeltaTime:" << TimeManager::getInstance().deltaTime << std::endl;
     TimeManager::getInstance().NextFrame();
+    std::cout << "Numero de vidas->" << playerLife;
+    if (playerLife < 1)
+    {
+        std::cout << " GAME OVER PULSE Q PARA SALIR " << std::endl;
+    }
 }
