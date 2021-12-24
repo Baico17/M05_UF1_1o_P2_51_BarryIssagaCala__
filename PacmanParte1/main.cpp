@@ -58,8 +58,10 @@ void Setup()
     std::cin >> enemyNumber;
     for (size_t i = 0; i < enemyNumber; i++)
     {
-        enemigos.push_back(Enemy(pacman_map.spawn_enemy));
+            enemigos.push_back(Enemy(pacman_map.spawn_enemy));
+           
     }
+
 }
 
 void Input()
@@ -220,9 +222,10 @@ void Draw()
     std::cout << player_char;
 
     //enemy1.Draw();
+   
     for (size_t i = 0; i < enemigos.size(); i++)
     {
-        enemigos[i].Draw();
+            enemigos[i].Draw();
     }
     ConsoleUtils::Console_ClearCharacter({ 0,(short)pacman_map.Height });
     ConsoleUtils::Console_SetColor(ConsoleUtils::CONSOLE_COLOR::CYAN);
@@ -235,6 +238,7 @@ void Draw()
     std::cout << "Fotogramas:" << TimeManager::getInstance().frameCount << std::endl;
     std::cout << "Time:" << TimeManager::getInstance().time << std::endl;
     std::cout << "DeltaTime:" << TimeManager::getInstance().deltaTime << std::endl;
+ 
     TimeManager::getInstance().NextFrame();
     std::cout << "Numero de vidas->" << playerLife;
     if (playerLife < 1)
